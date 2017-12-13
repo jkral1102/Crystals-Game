@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Crystal Collectors</title>
+	<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<style>
+	body {
+		background-image: url(assets/images/background.png);
+		// font-family: 'Permanent Marker', cursive;
+		font-family: 'Audiowide', cursive;
+	}
+
+	#title {
+		width: 33vw;
+		height: 10vh;
+		background-color: orange;
+		color: white;
+		line-height: 10vh;
+		vertical-align: middle;
+
+	}
+
+	#instructions {
+		width: 50vw;
+		height: 30vh;
+		background-color: tan;
+		color: green;
+		font-size: 15px;
+
+	}
+
+	#numToGuess {
+		width: 25vw;
+		height: 15vh;
+		font-size: 25px;
+		color: purple;
+		background-color: green;
+		line-height: 15vh;
+		vertical-align: middle;
+	}
+
+	#results {
+		width: 15vw;
+		height: 15vh;
+		background-color: aqua;
+	}
+
+	#crystals {
+		background-color: teal;
+		width: 30vw;
+		height: 15vh;
+		display: inline-block;
+	}
+
+	#finalNum {
+		width: 25vw;
+		height: 11vh;
+		background-color: teal;
+		color: white;
+		line-height: 11vh;
+		vertical-align: middle;
+	}
+	
+	#computerNum {
+		font-size: 40px;
+		color: white;
+	}
+	
+	#finalScore {
+		font-size: 40px;
+		color: white;
+	}
+	
+	#results {
+		font-size: 18px;
+	}
+	
+	#finalNum {
+		color: yellow;
+	}
+	
+	ul { 
+	line-height: 33px;
+	}
+	
+	#random {
+		width: 11vw;
+		height: 15vh;
+		position: absolute;
+		bottom: 0px;
+		right: 70px;
+	}
+	
+	.img1 {
+    transition: 0.5s;
+	}
+	
+	.img1:hover {
+    opacity: 0;
+    transform: scale(3) rotate(10deg);
+	}
+
+	
+</style>
+
+<body>
+
+	<div id="title">
+		<h1>Crystal Collectors Game!</h1>
+	</div>
+
+	<div id="instructions">
+		<h2>Here's how to play:</h2>
+		<ul>
+		<li> You will be given a random number at the start of the game.</li>
+		<li> There are four crystals below. By clicking on a crystal you will add a specific amount of points to your total score.</li>
+		<li> You win the game by matching your total score to the random number. You lose the game if your total score goes above the
+			random number. </li>
+		<li> Each time the game starts, the game will change the values of each crystal.</li>
+		</ul>
+	</div>
+
+	<div id="numToGuess">
+		Number to Guess:
+		<span id="computerNum"></span>
+	</div>
+
+	<div id="results">
+		<span id="gameResult"></span>
+		<br> <b>Wins:
+		<span id="winsTotal">0</span>
+		<br> <b>Losses:
+		<span id="lossesTotal">0</span>
+	</div>
+
+	<div id="crystals">
+		<button class="btn blueBtn">
+			<img src="assets/images/blue.png" alt="blue crystal"> </button>
+		<button class="btn greenBtn">
+			<img src="assets/images/green.png" alt="green crystal"> </button>
+		<button class="btn redBtn">
+			<img src="assets/images/red.png" alt="red crystal"> </button>
+		<button class="btn yellowBtn">
+			<img src="assets/images/yellow.png" alt="yellow crystal"> </button>
+	</div>
+
+	<div id="finalNum">
+		Your Total Score:
+		<span id="finalScore"></span>
+	</div>
+	
+
+	<div id="random"></div>
+	
+	<img id="image01" class="img1"> 
+	<br>
+	<input type="button" onclick = "showImg()" value="Click me"> 
+	
+	<!-- End of HTML -->
+	
+	
+	
+	
+	
+	
+	
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+	<script type="text/javascript">
+	
+	
+	
+
+		var wins = 0;
+		var losses = 0;
+		var counter = 0;
+		var numberToGuess;
+
+
+		function randomInt(min, max) {
+			return Math.floor(Math.random() * (max - min + 1) + min);
+		}
+
+
+		$(document).ready(function () {
+			initGame();
+			// (GAME) when crystals are clicked, add their value to total score
+			$(".btn").on("click", function () {
+				counter += +$(this).val();
+				$("#finalScore").html(counter);
+				highscorewhatsthatmean();
+			});
+		})
+
+		function highscorewhatsthatmean() {
+			if(counter < numberToGuess){
+				return;
+			}else if (counter == numberToGuess) {
+				wins++;
+				$("#gameResult").text("You won!");
+				$("#winsTotal").text(wins);
+
+			} else if (counter > numberToGuess) { 
+				losses++;
+				$("#gameResult").text("You lost!");
+				$("#lossesTotal").text(losses);
+			}
+			initGame();
+		}
+
+		
+		function initGame() {
+			counter = 0;
+
+			// (INITIALIZING) computer selects Number to Guess (19-120) 
+			
+			numberToGuess = randomInt(19, 120);
+			$("#computerNum").html(numberToGuess);
+			console.log(numberToGuess);
+
+			// (INITIALIZING) crystal values randomly selected (1-12) 
+
+			$(".blueBtn").val(randomInt(1, 12));
+			$(".greenBtn").val(randomInt(1, 12));
+			$(".redBtn").val(randomInt(1, 12));
+			$(".yellowBtn").val(randomInt(1, 12));
+
+		}
+
+	function showImg() { 
+		var image = document.getElementById('image01'); 
+		image.src='assets/images/a.gif'; 
+		$("#random").append(image);
+	} 
+
+	</script>
+</body>
+
+</html>
